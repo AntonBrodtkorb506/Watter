@@ -13,12 +13,18 @@
 #include "adcsample.h"
 
 
+int sample = 0;
+
 
 int main(void)
 {
     __enable_irq(); /* Enable global interrupts. */
     
     char uartBuffer[256];
+    
+   
+    
+    DMA_1_Start(&(SAR->CHAN_RESULT[0]),&sample);
     
     UART_1_Start();
   
@@ -29,9 +35,10 @@ int main(void)
 
     for(;;)
     {
+          UART_1_PutString("Hej");
         /* Place your application code here. */
        initADCsample();
-       int sample = getADCsample();
+       
         
         snprintf(uartBuffer, sizeof(uartBuffer), "Sample er: %i", sample);
     }
