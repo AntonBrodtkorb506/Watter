@@ -11,9 +11,13 @@
 */
 #include "project.h"
 #include "adcsample.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 int sample = 0;
+
+char sample1[1000];
 
 
 int main(void)
@@ -21,6 +25,7 @@ int main(void)
     __enable_irq(); /* Enable global interrupts. */
     
     char uartBuffer[256];
+    
     
    
     
@@ -31,16 +36,22 @@ int main(void)
     ADC_1_Start();
     ADC_1_StartConvert();
     
+    initADCsample();
+    
     UART_1_PutString("Hej");
 
     for(;;)
     {
-          UART_1_PutString("Hej");
-        /* Place your application code here. */
-       initADCsample();
-       
+          UART_1_PutString("Sample er: ");
         
-        snprintf(uartBuffer, sizeof(uartBuffer), "Sample er: %i", sample);
+          itoa(sample,sample1,1000);
+          UART_1_PutString(sample1);
+        /* Place your application code here. */
+       
+           
+    CyDelay(500);
+         
+       // sprintf(uartBuffer, sizeof(uartBuffer), "Sample er: %i", sample);
     }
 }
 
