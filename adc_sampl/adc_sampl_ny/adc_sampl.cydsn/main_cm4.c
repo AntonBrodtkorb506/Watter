@@ -42,9 +42,10 @@ int main(void)
 
     for(;;)
     {
+          getADCsample(sample);
           UART_1_PutString("Sample er: ");
         
-          itoa(sample,sample1,1000);
+          itoa(sample,sample1,10);
           UART_1_PutString(sample1);
         /* Place your application code here. */
        
