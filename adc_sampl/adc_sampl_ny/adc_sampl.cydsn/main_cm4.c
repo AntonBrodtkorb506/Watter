@@ -66,10 +66,10 @@ int main(void)
         
         
         
-        UART_1_PutString("sample er: ");
+       // UART_1_PutString("sample er: ");
         
-        sprintf(buff,"%d \n\r",sample);
-        UART_1_PutString(buff);
+       // sprintf(buff,"%d \n\r",sample);
+        //UART_1_PutString(buff);
         
         
         
