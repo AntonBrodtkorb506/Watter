@@ -15,42 +15,84 @@
 #include <stdlib.h>
 
 
-int sample = 0;
+int16 sample = 0;
 
-char sample1[1000];
+char buff[8];
 
+void SysInt_ISR(void){
+    
+    UART_1_PutString("sample er: ");
+        
+        sprintf(buff,"%d \n\r",sample);
+        UART_1_PutString(buff);
+    
+    Cy_DMA_Channel_ClearInterrupt(DMA_1_HW,0);
+        
+    }
 
 int main(void)
 {
-    __enable_irq(); /* Enable global interrupts. */
     
-    char uartBuffer[256];
+    
+    //char uartBuffer[256];
     
     
    
+   
+    DMA_1_Start(&(SAR->CHAN_RESULT[0]),(void *)&sample);
     
-    DMA_1_Start(&(SAR->CHAN_RESULT[0]),&sample);
+    Cy_DMA_Channel_SetInterruptMask(DMA_1_HW,0,CY_DMA_INTR_MASK);
     
     UART_1_Start();
-  
+    
     ADC_1_Start();
     ADC_1_StartConvert();
     
-    initADCsample();
+    //initADCsample();
     
-    UART_1_PutString("Hej");
-
+    //Cy_SysInt_Init()
+    
+    __enable_irq(); /* Enable global interrupts. */  
+    Cy_SysInt_Init(&SysInt_1_cfg,SysInt_ISR);
+    NVIC_ClearPendingIRQ(SysInt_1_cfg.intrSrc);
+    NVIC_EnableIRQ(SysInt_1_cfg.intrSrc);
+    
+    
+    
     for(;;)
     {
-          getADCsample(sample);
-          UART_1_PutString("Sample er: ");
+       
+        //Cy_DMA_Channel_SetInterrupt(DW0,0UL);
         
-          itoa(sample,sample1,10);
-          UART_1_PutString(sample1);
+        
+        
+        UART_1_PutString("sample er: ");
+        
+        sprintf(buff,"%d \n\r",sample);
+        UART_1_PutString(buff);
+        
+        
+        
+        
+        
+        
+        CyDelay(1000);
+        
+        
+        
+        
+        //ADC_1_StartConvert();
+          //getADCsample(sample);
+         // UART_1_PutString("Sample er: ");
+        
+       
+        
+        //  itoa(sample,sample1,10);
+        //  UART_1_PutString(sample1);
         /* Place your application code here. */
        
            
-    CyDelay(500);
+    
          
        // sprintf(uartBuffer, sizeof(uartBuffer), "Sample er: %i", sample);
     }
