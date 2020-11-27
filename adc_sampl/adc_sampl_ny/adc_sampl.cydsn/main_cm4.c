@@ -32,12 +32,6 @@ void SysInt_ISR(void){
 
 int main(void)
 {
-    
-    
-    //char uartBuffer[256];
-    
-    
-   
    
     DMA_1_Start(&(SAR->CHAN_RESULT[0]),(void *)&sample);
     
@@ -48,9 +42,6 @@ int main(void)
     ADC_1_Start();
     ADC_1_StartConvert();
     
-    //initADCsample();
-    
-    //Cy_SysInt_Init()
     
     __enable_irq(); /* Enable global interrupts. */  
     Cy_SysInt_Init(&SysInt_1_cfg,SysInt_ISR);
@@ -61,40 +52,6 @@ int main(void)
     
     for(;;)
     {
-       
-        //Cy_DMA_Channel_SetInterrupt(DW0,0UL);
-        
-        
-        
-       // UART_1_PutString("sample er: ");
-        
-       // sprintf(buff,"%d \n\r",sample);
-        //UART_1_PutString(buff);
-        
-        
-        
-        
-        
-        
-        CyDelay(1000);
-        
-        
-        
-        
-        //ADC_1_StartConvert();
-          //getADCsample(sample);
-         // UART_1_PutString("Sample er: ");
-        
-       
-        
-        //  itoa(sample,sample1,10);
-        //  UART_1_PutString(sample1);
-        /* Place your application code here. */
-       
-           
-    
-         
-       // sprintf(uartBuffer, sizeof(uartBuffer), "Sample er: %i", sample);
     }
 }
 
